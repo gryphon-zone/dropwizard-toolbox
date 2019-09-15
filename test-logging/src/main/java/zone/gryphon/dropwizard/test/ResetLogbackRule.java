@@ -21,23 +21,31 @@ import org.junit.rules.ExternalResource;
 import org.slf4j.LoggerFactory;
 
 /**
- * When used as a test/class rule, {@link io.dropwizard.testing.junit.DropwizardAppRule}
- * the {@link io.dropwizard.testing.DropwizardTestSupport#after()} method while cleaning up.
+ * Utility to reset Logback after a {@code DropwizardAppRule} completes.
  * <p>
- * This in turn ends up
- * <a href="https://github.com/dropwizard/dropwizard/blob/v1.3.14/dropwizard-testing/src/main/java/io/dropwizard/testing/DropwizardTestSupport.java#L180-L181">
- * resetting the Logback configuration factory.
+ * When used as a test/class rule, {@link io.dropwizard.testing.junit.DropwizardAppRule} calls
+ * {@link io.dropwizard.testing.DropwizardTestSupport#after()}
+ * <a href="https://github.com/dropwizard/dropwizard/blob/v1.2.0/dropwizard-testing/src/main/java/io/dropwizard/testing/junit/DropwizardAppRule.java#L161">
+ * during its own {@code after()} method.
  * </a>
  * <p>
- * If Logback was configured before the {@link io.dropwizard.testing.junit.DropwizardAppRule} was started, that
- * configuration is lost, and instead it uses the Dropwizard default logging configuration.
+ * {@link io.dropwizard.testing.DropwizardTestSupport#after()} in turn
+ * <a href="https://github.com/dropwizard/dropwizard/blob/v1.2.0/dropwizard-testing/src/main/java/io/dropwizard/testing/DropwizardTestSupport.java#L170-L171">
+ * resets the Logback configuration
+ * </a>
+ * (assuming Logback is the logging framework in use).
  * <p>
- * This has the potential to cause issues if there are additional test/class rules which need to be shut down, since
- * the default Dropwizard logging configuration may cause overly verbose output for these rules.
+ * However, that call runs the default <i>Dropwizard</i> logging setup, not the default <i>Logback</i>
+ * logging setup, meaning that if Logback was configured externally prior to launching Dropwizard
+ * (e.g. to control logging in other {@link org.junit.rules.TestRule}), that configuration will not be restored.
  * <p>
- * This rule re-runs the initial Logback configuration setup when the {@link ResetLogbackRule#after()} method is called,
+ * This has the potential to cause issues if there are additional test/class rules which are shut down after
+ * the {@link io.dropwizard.testing.junit.DropwizardAppRule}, since the default Dropwizard logging configuration
+ * may cause them to be overly verbose.
+ * <p>
+ * This rule re-initializes Logback when {@link ResetLogbackRule#after()} is called,
  * meaning that Logback will be set back to the state it was in before the
- * {@link io.dropwizard.testing.junit.DropwizardAppRule} ran.
+ * {@link io.dropwizard.testing.junit.DropwizardAppRule} ran (assuming Logback was not programmatically configured).
  * <p>
  * Typical usage will look something like the following:
  * <pre>
@@ -62,9 +70,9 @@ import org.slf4j.LoggerFactory;
  * }
  * </pre>
  * This will cause the {@link ResetLogbackRule#after()} method to run after Dropwizard's completes, but before
- * the {@code after()} method on the rest rule with verbose shutdown code runs.
+ * the {@code after()} method on the test rule with verbose shutdown code runs.
  *
- * @author gschmidt
+ * @author tyrol
  */
 public class ResetLogbackRule extends ExternalResource {
 
