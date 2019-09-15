@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019-2019 Gryphon Zone
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>zone.gryphon</groupId>
+        <artifactId>base-pom</artifactId>
+        <version>0.11.41-5e4a1d7</version>
+    </parent>
+
+    <groupId>zone.gryphon.dropwizard</groupId>
+    <artifactId>dropwizard-toolbox</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>dropwizard-toolbox parent POM</name>
+    <description>Collection of utilities for working with Dropwizard</description>
+    <url>https://github.com/gryphon-zone/dropwizard-toolbox</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>tyrol</id>
+            <name>Tyrol</name>
+            <email>tyrol@gryphon.zone</email>
+            <organizationUrl>https://github.com/gryphon-zone/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-6</timezone>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>bom</module>
+        <module>build-bom</module>
+        <module>test-logging</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:git@github.com:gryphon-zone/dropwizard-toolbox.git</connection>
+        <developerConnection>scm:git:git@github.com:gryphon-zone/dropwizard-toolbox.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/gryphon-zone/dropwizard-toolbox/tree/master</url>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>analyze-dependencies</id>
+                        <configuration>
+                            <ignoredUnusedDeclaredDependencies>
+                                <dependency>ch.qos.logback:logback-classic:jar:*</dependency>
+                                <dependency>ch.qos.logback:logback-core:jar:*</dependency>
+                                <dependency>org.projectlombok:lombok:jar:*</dependency>
+                                <dependency>org.openjdk.jmh:jmh-generator-annprocess:jar:*</dependency>
+                                <dependency>org.glassfish.jaxb:jaxb-runtime:jar:*</dependency>
+                            </ignoredUnusedDeclaredDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
