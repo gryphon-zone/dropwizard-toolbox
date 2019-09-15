@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  * {@link io.dropwizard.testing.junit.DropwizardAppRule} ran.
  * <p>
  * Typical usage will look something like the following:
- * <pre>{@code
+ * <pre>
  * public class MyTestClass {
  *
  *   private static final VerboseTestRule verboseTestRule = ...;
@@ -49,18 +49,18 @@ import org.slf4j.LoggerFactory;
  *
  *   private static final DropwizardAppRule dropwizardAppRule = ...;
  *
- *   @ClassRule
+ *   &#064;ClassRule
  *   public static RuleChain chain = RuleChain.outerRule(RuleChain.emptyRuleChain())
  *       .around(verboseTestRule)
  *       .around(resetLogbackRule)
  *       .around(dropwizardAppRule);
  *
- *   @Test
+ *   &#064;Test
  *   public void myTest() {
  *       ...
  *   }
  * }
- * }</pre>
+ * </pre>
  * This will cause the {@link ResetLogbackRule#after()} method to run after Dropwizard's completes, but before
  * the {@code after()} method on the rest rule with verbose shutdown code runs.
  *
